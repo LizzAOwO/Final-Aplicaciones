@@ -1,0 +1,22 @@
+<?php
+    include_once 'conexion.php'; 
+    $curso_id = $_POST['cursos_id'];
+    $usuario_id = $_POST['usuario_id'];
+
+    //Verificar que existe el curso
+    $sql = 'Select * From alumno_cursos Where alu_cur_id=?';
+    $sentencia = $pdo->prepare($sql);
+    $sentencia->execute(array($usuario_nuevo));
+    $resultado = $sentencia->fetch();
+
+    if($resultado){
+        echo 'El usuario ya existe!!';
+        die();
+    }else{
+            $sql_agregar = 'Insert Into usuarios(correo, contrasena) values(?, ?)';
+            $sentencia_agregar = $pdo->prepare($sql_agregar);
+            $sentencia_agregar->execute(array($usuario_nuevo, $contrasena));
+            //Destruir las variables de conexion
+            $sentencia_agregar = null;
+            $pdo = null;
+    }
